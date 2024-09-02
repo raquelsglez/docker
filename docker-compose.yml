@@ -1,0 +1,17 @@
+#configuracion(unir ciertas dependencias, en este caso node con mongo)
+services:
+  aplication: #nombre de nuestra aplicacion
+    container_name: appNode
+    restart: always
+    build: .
+    ports:
+      - "3030:3000" #el primero es el que vamos a trabajar con docker y el segundo es con el que estamos trabajando aqui
+    links: #links para unir aplication con database
+      - databaseMongo
+    volumes: # con volumes le decimos que todo lo que esté guardando en nuestra aplicacion tambien lo este guardando en docker
+      - .:/home/appnode
+  databaseMongo: #necesitamos que nuestra base de datos enganche aqui(databaseMongo) -> archivo db.js
+    container_name: mongoDB
+    image: mongo
+    ports:
+      - "27017:27017" #27017 son los puertos que mongo ocupa
